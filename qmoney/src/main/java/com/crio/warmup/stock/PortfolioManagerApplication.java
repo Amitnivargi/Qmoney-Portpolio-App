@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,9 +24,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.logging.log4j.ThreadContext;
 import org.springframework.web.client.RestTemplate;
+import java.util.List;
 
 
 public class PortfolioManagerApplication {
+ 
+
+
+
+
 
   // TODO: CRIO_TASK_MODULE_JSON_PARSING
   //  Task:
@@ -45,8 +52,16 @@ public class PortfolioManagerApplication {
   //  2. You can use "./gradlew build" to check if your code builds successfully.
 
   public static List<String> mainReadFile(String[] args) throws IOException, URISyntaxException {
-
-     return Collections.emptyList();
+   
+    File file=resolveFileFromResources(args[0]);
+    ObjectMapper objectMapper=getObjectMapper();
+    PortfolioTrade[] trades=objectMapper.readValue(file, PortfolioTrade[].class);
+    List<String> symbols=new ArrayList<String>();
+    for(PortfolioTrade t:trades) {
+     symbols.add(t.getSymbol());
+    }
+    
+    return symbols;
   }
 
 
@@ -117,11 +132,10 @@ public class PortfolioManagerApplication {
   public static List<String> debugOutputs() {
 
      String valueOfArgument0 = "trades.json";
-     String resultOfResolveFilePathArgs0 = "";
-     String toStringOfObjectMapper = "";
-     String functionNameFromTestFileInStackTrace = "";
-     String lineNumberFromTestFileInStackTrace = "";
-
+     String resultOfResolveFilePathArgs0 ="/home/crio-user/workspace/nivargiamit1999-ME_QMONEY_V2/qmoney/bin/test/assessments/trades.json";
+     String toStringOfObjectMapper = "com.fasterxml.jackson.databind.ObjectMapper@815b41f";
+     String functionNameFromTestFileInStackTrace = "ModuleOneTest.mainReadFile()";
+     String lineNumberFromTestFileInStackTrace = "19:1";
 
     return Arrays.asList(new String[]{valueOfArgument0, resultOfResolveFilePathArgs0,
         toStringOfObjectMapper, functionNameFromTestFileInStackTrace,
@@ -135,11 +149,12 @@ public class PortfolioManagerApplication {
 
 
   public static void main(String[] args) throws Exception {
+    
     Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
     ThreadContext.put("runId", UUID.randomUUID().toString());
-
+    
     printJsonObject(mainReadFile(args));
-
+    
 
 
   }
