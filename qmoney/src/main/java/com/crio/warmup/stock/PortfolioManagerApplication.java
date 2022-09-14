@@ -62,6 +62,7 @@ public class PortfolioManagerApplication {
     }
     
     return symbols;
+    
   }
 
 
