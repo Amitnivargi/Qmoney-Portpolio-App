@@ -36,7 +36,7 @@ class ModuleTwoTest {
     trade.setSymbol("AAPL");
     String token = "abcd";
     //when
-    String tiingoUrl = PortfolioManagerApplication
+    List<Object> tiingoUrl = PortfolioManagerApplication
             .prepareUrl(trade, LocalDate.parse("2010-01-10"), token);
 
     //then
