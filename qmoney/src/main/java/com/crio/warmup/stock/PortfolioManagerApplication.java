@@ -207,7 +207,7 @@ public class PortfolioManagerApplication {
     Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
     ThreadContext.put("runId", UUID.randomUUID().toString());
 
-    printJsonObject(mainReadFile(args));
+   // printJsonObject(mainReadFile(args));
     printJsonObject(mainReadQuotes(args));
 
 
