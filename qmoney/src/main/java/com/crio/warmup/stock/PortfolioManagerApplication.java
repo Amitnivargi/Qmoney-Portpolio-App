@@ -9,19 +9,19 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
+//import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+//import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
+//import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+//import java.util.stream.Collectors;
+//import java.util.stream.Stream;
 import org.apache.logging.log4j.ThreadContext;
 import org.springframework.web.client.RestTemplate;
 
@@ -144,7 +144,7 @@ public class PortfolioManagerApplication {
   //  After refactor, make sure that the tests pass by using these two commands
   //  ./gradlew test --tests PortfolioManagerApplicationTest.readTradesFromJson
   //  ./gradlew test --tests PortfolioManagerApplicationTest.mainReadFile
-  public static List<PortfolioTrade> readTradesFromJson(String filename) throws IOException, URISyntaxException {
+  /*  public static List<PortfolioTrade> readTradesFromJson(String filename) throws IOException, URISyntaxException {
      return Collections.emptyList();
   }
 
@@ -152,8 +152,8 @@ public class PortfolioManagerApplication {
   // TODO:
   //  Build the Url using given parameters and use this function in your code to cann the API.
   public static List<Object> prepareUrl(PortfolioTrade trade, LocalDate endDate, String token) {
-     return Collections.emptyList();
-  }
+    return Collections.emptyList();
+  }*/
 
 
 
