@@ -1,4 +1,3 @@
-
 package com.crio.warmup.stock;
 
 import com.crio.warmup.stock.dto.PortfolioTrade;
@@ -26,7 +25,7 @@ class PortfolioManagerApplicationTest {
 
     //when
     List<String> results = PortfolioManagerApplication
-    .mainReadQuotes(new String[]{filename});
+        .mainReadFile(new String[]{filename});
 
     //then
     Assertions.assertEquals(expected, results);

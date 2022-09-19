@@ -29,7 +29,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class PortfolioManagerApplication {
 
-  public static Object mainReadFile(String[] args) throws IOException,URISyntaxException {
+  public static List<String> mainReadFile(String[] args) throws IOException,URISyntaxException {
    // File file=resolveFileFromResources(args[0]);
     ObjectMapper objectMapper=getObjectMapper();
     PortfolioTrade[] trades=objectMapper.readValue(resolveFileFromResources(args[0]),PortfolioTrade[].class);
