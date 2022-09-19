@@ -36,8 +36,9 @@ class ModuleTwoTest {
     trade.setSymbol("AAPL");
     String token = "abcd";
     //when
-    List<Object> tiingoUrl = PortfolioManagerApplication
-            .prepareUrl(trade, LocalDate.parse("2010-01-10"), token);
+    String tiingoUrl = PortfolioManagerApplication
+    .prepareUrl(trade, LocalDate.parse("2010-01-10"), token);
+
 
     //then
     String uri = "https://api.tiingo.com/tiingo/daily/AAPL/prices?startDate=2010-01-01&endDate=2010-01-10&token=abcd";

@@ -1,10 +1,6 @@
 
 package com.crio.warmup.stock.dto;
 
-import java.util.Comparator;
-
-
-
 public class TotalReturnsDto {
 
   private String symbol;
@@ -31,14 +27,6 @@ public class TotalReturnsDto {
     this.closingPrice = closingPrice;
   }
 
-  public static final Comparator<TotalReturnsDto> closingComparator= new Comparator<TotalReturnsDto>(){
-  
-    public int compare(TotalReturnsDto t1, TotalReturnsDto t2) {
-    return (int) (t1.getClosingPrice().compareTo(t2.getClosingPrice()) );
-    }
-  
-    
-    
-  };
+
 }
 

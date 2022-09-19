@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 //import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -29,16 +30,28 @@ import org.springframework.web.client.RestTemplate;
 public class PortfolioManagerApplication {
 
   public static Object mainReadFile(String[] args) throws IOException,URISyntaxException {
-    File file=resolveFileFromResources(args[0]);
+   // File file=resolveFileFromResources(args[0]);
     ObjectMapper objectMapper=getObjectMapper();
-    PortfolioTrade[] trades=objectMapper.readValue(file,PortfolioTrade[].class);
+    PortfolioTrade[] trades=objectMapper.readValue(resolveFileFromResources(args[0]),PortfolioTrade[].class);
     List<String> symbols=new ArrayList<>();
     for(PortfolioTrade t: trades) {
-            symbols.add(t.getSymbol());
+        symbols.add(t.getSymbol());
     }
     return symbols;
   }
 
+  // public static List<String> mainReadFile(String[] args) throws IOException, URISyntaxException {
+  //   File file = resolveFileFromResources(args[0]);
+  //   ObjectMapper objectMapper = getObjectMapper();
+  //   PortfolioTrade[] trades = objectMapper.readValue(file, PortfolioTrade[].class);
+  //   List<String> symbols = new ArrayList<String>();
+  //   for(PortfolioTrade stock : trades){
+  //     symbols.add(stock.getSymbol());
+  //     //System.out.println(stock.toString());
+  //   }
+  //    //return Collections.emptyList();
+  //    return symbols;
+  // }
 
 
 
@@ -122,48 +135,71 @@ public class PortfolioManagerApplication {
   // Note:
   // Remember to confirm that you are getting same results for annualized returns as in Module 3.
   public static List<String> mainReadQuotes(String[] args) throws IOException, URISyntaxException {
-    ObjectMapper objectMapper=getObjectMapper();
-    List<PortfolioTrade> trades=Arrays.asList(objectMapper.readValue(resolveFileFromResources(args[0]),PortfolioTrade[].class));
-    List<TotalReturnsDto> sortedByValue=mainReadQuotesHelper(args,trades);
-    Collections.sort(sortedByValue,TotalReturnsDto.closingComparator);
-    List<String> stocks=new ArrayList<String>();
-    for(TotalReturnsDto trd: sortedByValue) {
-      stocks.add(trd.getSymbol());
+    RestTemplate restTemplate = new RestTemplate();
+    List<TotalReturnsDto> totalReturnsDto = new ArrayList<TotalReturnsDto>();
+    List<PortfolioTrade> portfolioTrade = readTradesFromJson(args[0]);
+    for(PortfolioTrade t : portfolioTrade){
+      LocalDate endDate = LocalDate.parse(args[1]);
+      String url = prepareUrl(t, endDate, "2f01fc1d9ee2f10f053427a71ceb74fe7b1a7ec7");
+      System.out.println(url);
+      TiingoCandle[] results = restTemplate.getForObject(url, TiingoCandle[].class);
+      if(results != null){
+        totalReturnsDto.add(new TotalReturnsDto(t.getSymbol(), results[results.length - 1].getClose()));
+      }
     }
-     return stocks;
+
+    Collections.sort(totalReturnsDto, new Comparator<TotalReturnsDto>(){
+    @Override
+      public int compare(TotalReturnsDto o1, TotalReturnsDto o2){
+        return (int) (o1.getClosingPrice().compareTo(o2.getClosingPrice()));
+      }
+    });
+
+    List<String> listAnswer = new ArrayList<>();
+    for(int i = 0; i < totalReturnsDto.size(); i++){
+      listAnswer.add(totalReturnsDto.get(i).getSymbol());
+    }
+    return listAnswer;
   }
+
 
   
 
-  public static List<TotalReturnsDto> mainReadQuotesHelper(String[] args,
-      List<PortfolioTrade> trades) throws IOException,URISyntaxException{
-    RestTemplate restTemplate=new RestTemplate();
-    List<TotalReturnsDto> tests=new ArrayList<TotalReturnsDto>();
-    for(PortfolioTrade t: trades) {
-      String uri="https://api.tiingo.com/tiingo/daily/"+t.getSymbol() + t.getSymbol()+"/prices?startDate=" + t.getPurchaseDate().toString()+"&endDate="+args[1]+"&token=2f01fc1d9ee2f10f053427a71ceb74fe7b1a7ec7";
-      TiingoCandle[] results=restTemplate.getForObject(uri,TiingoCandle[].class);
+  // public static List<TotalReturnsDto> mainReadQuotesHelper(String[] args,
+  //     List<PortfolioTrade> trades) throws IOException,URISyntaxException{
+  //   RestTemplate restTemplate=new RestTemplate();
+  //   List<TotalReturnsDto> tests=new ArrayList<TotalReturnsDto>();
+  //   for(PortfolioTrade t: trades) {
+  //     String uri="https://api.tiingo.com/tiingo/daily/"+t.getSymbol() + t.getSymbol()+"/prices?startDate=" + t.getPurchaseDate().toString()+"&endDate="+args[1]+"&token=2f01fc1d9ee2f10f053427a71ceb74fe7b1a7ec7";
+  //     TiingoCandle[] results=restTemplate.getForObject(uri,TiingoCandle[].class);
      
-      if(results!=null) {
-        tests.add(new TotalReturnsDto(t.getSymbol(),results[results.length-1].getClose()));
-      }
-    }
-    return tests;
-  }
+  //     if(results!=null) {
+  //       tests.add(new TotalReturnsDto(t.getSymbol(),results[results.length-1].getClose()));
+  //     }
+  //   }
+  //   return tests;
+  // }
 
   // TODO:
   //  After refactor, make sure that the tests pass by using these two commands
   //  ./gradlew test --tests PortfolioManagerApplicationTest.readTradesFromJson
   //  ./gradlew test --tests PortfolioManagerApplicationTest.mainReadFile
-  /*   public static List<PortfolioTrade> readTradesFromJson(String filename) throws IOException, URISyntaxException {
-     return Collections.emptyList();
+  public static List<PortfolioTrade> readTradesFromJson(String filename) throws IOException, URISyntaxException {
+    File file = resolveFileFromResources(filename);
+    ObjectMapper objectmapper = getObjectMapper();
+    PortfolioTrade[] portfolioTrade = objectmapper.readValue(file, PortfolioTrade[].class);
+    List<PortfolioTrade> listPortfolioTrade = Arrays.asList(portfolioTrade);
+    return listPortfolioTrade;
   }
 
 
   // TODO:
   //  Build the Url using given parameters and use this function in your code to cann the API.
-  public static List<Object> prepareUrl(PortfolioTrade trade, LocalDate endDate, String token) {
-    return Collections.emptyList();
-  }*/
+  public static String prepareUrl(PortfolioTrade trade, LocalDate endDate, String token) {
+    return  "https://api.tiingo.com/tiingo/daily/"+ trade.getSymbol() +"/prices?startDate="+ trade.getPurchaseDate() +"&endDate="+ endDate +"&token=" + token;
+  }
+
+
 
 
 
