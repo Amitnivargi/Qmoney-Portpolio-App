@@ -28,7 +28,16 @@ import org.springframework.web.client.RestTemplate;
 
 public class PortfolioManagerApplication {
 
-
+  public static Object mainReadFile(String[] args) throws IOException,URISyntaxException {
+    File file=resolveFileFromResources(args[0]);
+    ObjectMapper objectMapper=getObjectMapper();
+    PortfolioTrade[] trades=objectMapper.readValue(file,PortfolioTrade[].class);
+    List<String> symbols=new ArrayList<>();
+    for(PortfolioTrade t: trades) {
+            symbols.add(t.getSymbol());
+    }
+    return symbols;
+  }
 
 
 
@@ -116,6 +125,7 @@ public class PortfolioManagerApplication {
     ObjectMapper objectMapper=getObjectMapper();
     List<PortfolioTrade> trades=Arrays.asList(objectMapper.readValue(resolveFileFromResources(args[0]),PortfolioTrade[].class));
     List<TotalReturnsDto> sortedByValue=mainReadQuotesHelper(args,trades);
+    Collections.sort(sortedByValue,TotalReturnsDto.closingComparator);
     List<String> stocks=new ArrayList<String>();
     for(TotalReturnsDto trd: sortedByValue) {
       stocks.add(trd.getSymbol());
@@ -144,7 +154,7 @@ public class PortfolioManagerApplication {
   //  After refactor, make sure that the tests pass by using these two commands
   //  ./gradlew test --tests PortfolioManagerApplicationTest.readTradesFromJson
   //  ./gradlew test --tests PortfolioManagerApplicationTest.mainReadFile
-  /*  public static List<PortfolioTrade> readTradesFromJson(String filename) throws IOException, URISyntaxException {
+  /*   public static List<PortfolioTrade> readTradesFromJson(String filename) throws IOException, URISyntaxException {
      return Collections.emptyList();
   }
 
@@ -161,10 +171,12 @@ public class PortfolioManagerApplication {
     Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
     ThreadContext.put("runId", UUID.randomUUID().toString());
 
-
+    printJsonObject(mainReadFile(args));
     printJsonObject(mainReadQuotes(args));
 
 
   }
+
+ 
 }
 
