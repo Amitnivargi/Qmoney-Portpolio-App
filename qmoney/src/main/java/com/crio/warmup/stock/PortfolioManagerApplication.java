@@ -132,6 +132,7 @@ public class PortfolioManagerApplication {
     for(PortfolioTrade t: trades) {
       String uri="https://api.tiingo.com/tiingo/daily/"+t.getSymbol() + t.getSymbol()+"/prices?startDate=" + t.getPurchaseDate().toString()+"&endDate="+args[1]+"&token="2f01fc1d9ee2f10f053427a71ceb74fe7b1a7ec7";
       TiingoCandle[] results=restTemplate.getForObject(uri,TiingoCandle[].class);
+     
       if(results!=null) {
         tests.add(new TotalReturnsDto(t.getSymbol(),results[results.length-1].getClose()));
       }
