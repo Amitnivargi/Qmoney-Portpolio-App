@@ -61,7 +61,7 @@ public static final String TOKEN="2f01fc1d9ee2f10f053427a71ceb74fe7b1a7ec7";
   // TODO:
   //  Ensure all tests are passing using below command
   //  ./gradlew test --tests ModuleThreeRefactorTest
-/*   static Double getOpeningPriceOnStartDate(List<Candle> candles) {
+ static Double getOpeningPriceOnStartDate(List<Candle> candles) {
      return 0.0;
   }
 
@@ -73,7 +73,7 @@ public static final String TOKEN="2f01fc1d9ee2f10f053427a71ceb74fe7b1a7ec7";
 
   public static List<Candle> fetchCandles(PortfolioTrade trade, LocalDate endDate, String token) {
      return Collections.emptyList();
-  }*/
+  }
 
   public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args)
       throws IOException, URISyntaxException,DateTimeParseException {
@@ -168,6 +168,30 @@ public static final String TOKEN="2f01fc1d9ee2f10f053427a71ceb74fe7b1a7ec7";
     printJsonObject(mainCalculateSingleReturn(args));
 
   }
+
+public static List<PortfolioTrade> readTradesFromJson(String filename) {
+    return null;
+}
+
+public static String prepareUrl(PortfolioTrade trade, LocalDate parse, String token2) {
+    return null;
+}
+
+public static List<String> mainReadFile(String[] strings) {
+    return null;
+}
+
+public static String getToken() {
+  return null;
+}
+
+public static List<String> mainReadQuotes(String[] strings) {
+    return null;
+}
+
+public static List<String> debugOutputs() {
+    return null;
+}
 
  
 
