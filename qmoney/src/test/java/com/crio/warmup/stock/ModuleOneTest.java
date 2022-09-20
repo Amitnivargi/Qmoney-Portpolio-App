@@ -15,7 +15,8 @@ class ModuleOneTest {
     List<String> expected = Arrays.asList(new String[]{"MSFT", "CSCO", "CTS"});
 
     //when
-    List<String> results = PortfolioManagerApplication.mainReadFile(new String[]{filename});
+    List<String> results = PortfolioManagerApplication
+        .mainReadFile(new String[]{filename});
 
     //then
     Assertions.assertEquals(expected, results);
@@ -29,7 +30,7 @@ class ModuleOneTest {
 
     //when
     List<String> results = PortfolioManagerApplication
-        .mainReadQuotes(new String[]{filename});
+        .mainReadFile(new String[]{filename});
 
     //then
     Assertions.assertEquals(expected, results);

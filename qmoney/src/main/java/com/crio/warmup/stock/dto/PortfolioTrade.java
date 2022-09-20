@@ -57,9 +57,5 @@ public class PortfolioTrade {
     return tradeType;
   }
   //solution
- /*  @Override
-  public String toString() {
-   return "PortfolioTrade [ourchaseDate="+purchaseDate+",quantity="+quantity+",symbol="+",tradeType="+tradeType+"]";
- }*/
 
 }

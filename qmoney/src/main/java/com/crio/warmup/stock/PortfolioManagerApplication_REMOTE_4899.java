@@ -27,7 +27,7 @@ import org.apache.logging.log4j.ThreadContext;
 import org.springframework.web.client.RestTemplate;
 
 
-public class PortfolioManagerApplication {
+public class PortfolioManagerApplication_REMOTE_4899 {
 
 public static final String TOKEN="2f01fc1d9ee2f10f053427a71ceb74fe7b1a7ec7";
 
@@ -113,7 +113,7 @@ public static final String TOKEN="2f01fc1d9ee2f10f053427a71ceb74fe7b1a7ec7";
       throw new RuntimeException();
 
      }
-     String url=String.format("https://api.tiingo.com/tiingo/daily/AAPL/prices?startDate=2010-01-01&endDate=2010-01-10&token=abcd",ticker,startLocalDate.toString(),endLocalDate.toString(),TOKEN);
+     String url=String.format("https://api.tiingo.com/tiingo/daily/%s/prices?"+"startDate=%s&endDate=%s&token=%s",ticker,startLocalDate.toString(),endLocalDate.toString(),TOKEN);
      
      RestTemplate restTemplate=new RestTemplate();
 
@@ -168,8 +168,6 @@ public static final String TOKEN="2f01fc1d9ee2f10f053427a71ceb74fe7b1a7ec7";
     printJsonObject(mainCalculateSingleReturn(args));
 
   }
-
- 
 
 
   
