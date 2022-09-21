@@ -89,7 +89,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
   protected String buildUri(String symbol, LocalDate startDate, LocalDate endDate) {
     String token="2f01fc1d9ee2f10f053427a71ceb74fe7b1a7ec7";
-       String uriTemplate = "https:api.tiingo.com/tiingo/daily/$SYMBOL/prices?"
+       String uriTemplate = "https://api.tiingo.com/tiingo/daily/$SYMBOL/prices?"
             + "startDate=$STARTDATE&endDate=$ENDDATE&token=$APIKEY";
 
             String url=uriTemplate.replace("$APIKEY",token).replace("$SYMBOL",symbol)
